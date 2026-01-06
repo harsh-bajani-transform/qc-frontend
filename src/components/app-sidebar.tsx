@@ -52,10 +52,10 @@ export const AppSidebar = () => {
     <Sidebar collapsible="icon">
       <SidebarHeader className="bg-white">
         <SidebarMenuItem>
-          <SidebarMenuButton asChild className="gap-x-4 h-10 px-4">
+          <SidebarMenuButton asChild className="gap-x-2 h-10 px-4">
             <Link href="/" prefetch>
-              <ShieldCheck className="size-6! fill-primary stroke-secondary" />
-              <span className="font-semibold text-sm">QC Eval</span>
+              <ShieldCheck className="size-8! fill-primary stroke-white" />
+              <span className="font-semibold text-lg">TFS QC Eval</span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
