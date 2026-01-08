@@ -6,8 +6,6 @@ import { setSession } from "../lib/session";
 import type { LoginResponse } from "../types";
 
 export const userRouter = createTRPCRouter({
-    getOne: baseProcedure.input(signInSchema).query(async ()=>{}),
-    getMany: baseProcedure.input(signInSchema).query(async ()=>{}),
     signIn: baseProcedure.input(signInSchema).mutation(async ({ input }) => {
         try {
             const pythonBackendUrl = getPythonBackendUrl();
