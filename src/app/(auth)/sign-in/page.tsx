@@ -1,6 +1,8 @@
+import { requireUnauth } from "@/lib/auth-utils";
 import { SignInView } from "@/modules/auth/ui/views/sign-in-view";
 
-const SignIn = () => {
+const SignIn = async () => {
+  await requireUnauth();
   return <SignInView />;
 };
 
