@@ -1,6 +1,7 @@
-import { initTRPC } from '@trpc/server';
+import { TRPCError, initTRPC } from '@trpc/server';
 import { cache } from 'react';
 import { cookies, headers } from 'next/headers';
+import { getSession } from '@/modules/auth/lib/session';
 
 export const createTRPCContext = cache(async () => {
   /**
@@ -18,7 +19,7 @@ export const createTRPCContext = cache(async () => {
 // since it's not very descriptive.
 // For instance, the use of a t variable
 // is common in i18n libraries.
-const t = initTRPC.create({
+const t = initTRPC.context<typeof createTRPCContext>().create({
   /**
    * @see https://trpc.io/docs/server/data-transformers
    */
@@ -28,3 +29,18 @@ const t = initTRPC.create({
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
+export const protectedProcedure = baseProcedure.use(async ({ ctx, next }) => {
+  const session = await getSession();
+  if (!session) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "Unauthorized",
+    });
+  }
+  return next({
+    ctx: {
+      ...ctx,
+      auth: session,
+    },
+  });
+});
