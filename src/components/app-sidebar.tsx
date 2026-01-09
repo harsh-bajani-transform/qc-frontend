@@ -7,6 +7,7 @@ import {
   Table,
   User,
 } from "lucide-react";
+import { logout } from "@/modules/auth/actions/auth-actions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -104,8 +105,8 @@ export const AppSidebar = () => {
             <SidebarMenuButton
               tooltip="Sign out"
               className="gap-x-4 h-10 px-4"
-              onClick={() => {
-                console.log("sign out");
+              onClick={async () => {
+                await logout();
               }}
             >
               <LogOut className="h-4 w-4" />
