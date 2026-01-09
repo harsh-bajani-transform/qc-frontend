@@ -23,8 +23,6 @@ export const userRouter = createTRPCRouter({
             };
 
             const url = `${pythonBackendUrl}/auth/user`;
-            console.log("Sending login request to:", url);
-            console.log("Request body:", JSON.stringify(requestBody, null, 2));
 
             const response = await fetch(url, {
                 method: "POST",
@@ -33,10 +31,6 @@ export const userRouter = createTRPCRouter({
                 },
                 body: JSON.stringify(requestBody),
             });
-
-            console.log("Response status:", response.status);
-            console.log("Response statusText:", response.statusText);
-            console.log("Response headers:", Object.fromEntries(response.headers.entries()));
 
             if (!response.ok) {
                 let errorMessage = `Login failed with status ${response.status}`;
@@ -58,6 +52,10 @@ export const userRouter = createTRPCRouter({
             
             // Store session data if login is successful
             if (data.status === 200 && data.data) {
+                // Check if user is an agent (role_id 6)
+                if (data.data.role_id === 6) {
+                    throw new Error("Access Denied: Agents are not allowed to login to this portal.");
+                }
                 await setSession(data.data);
             }
             
